@@ -1,11 +1,10 @@
 package com.lwtxzwt.easy.chat.controller;
 
+import com.lwtxzwt.easy.chat.request.ChatGroupRequest;
+import com.lwtxzwt.easy.chat.request.ChatSingleRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Chat Controller
@@ -13,12 +12,28 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/v1/chat")
 public class ChatController {
 
-    @RequestMapping(value="/chat", method= RequestMethod.GET)
-    public Object chat(@RequestParam  String message, @RequestParam String userId){
-        WebSocketServer.SendMessage(userId, message);
+    /**
+     * Single Chat
+     * @param req
+     * @return
+     */
+    @PostMapping("/single")
+    public Object single(@RequestBody ChatSingleRequest req){
+        WebSocketServer.SendMessage(req.getUserId(), req.getMessage());
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
+//    /**
+//     * Group Chat
+//     * @param req
+//     * @return
+//     */
+//    @PostMapping("/group")
+//    public Object group(@RequestBody ChatGroupRequest req) {
+//        WebSocketServer.SendMessage(req.getGroupId(), req.getMessage());
+//        return new ResponseEntity<>(true, HttpStatus.OK);
+//    }
 }

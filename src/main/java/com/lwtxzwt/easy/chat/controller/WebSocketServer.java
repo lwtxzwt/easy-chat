@@ -34,7 +34,7 @@ public class WebSocketServer {
         sessions.add(session);
         sessionMap.put(userId, sessions);
         int cnt = onlineCount.incrementAndGet();
-        log.info("userId:{} joined，online：{}", userId, cnt);
+        log.info("userId:{} joined，session online：{}", userId, cnt);
     }
 
     @OnClose
@@ -42,7 +42,7 @@ public class WebSocketServer {
         String userId = session.getRequestParameterMap().get("userId").get(0);
         sessionMap.remove(userId);
         int cnt = onlineCount.decrementAndGet();
-        log.info("userId:{} closed，online：{}", userId, cnt);
+        log.info("userId:{} closed，session online：{}", userId, cnt);
     }
 
     @OnMessage
@@ -53,11 +53,10 @@ public class WebSocketServer {
     @OnError
     public void onError(Session session, Throwable error) {
         log.error("error：{}，sessionId： {}",error.getMessage(),session.getId());
-        error.printStackTrace();
     }
 
     /**
-     * 发送消息
+     * Send Message
      * @param userId
      * @param message
      */
@@ -72,7 +71,6 @@ public class WebSocketServer {
             }
         } catch (IOException e) {
             log.error("send message error：{}", e.getMessage());
-            e.printStackTrace();
         }
     }
 }
