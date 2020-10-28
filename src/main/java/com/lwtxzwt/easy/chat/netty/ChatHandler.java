@@ -44,15 +44,12 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
                 //当receiverChannel 不为空的时候，从ChannelGroup 去查找对应的channel 是否存在
                 Channel findChanel = users.find(receiverChannel.id());
                 if(findChanel!=null){
-                    DataContent dataContentMsg = new DataContent();
                     // 用户在线
-                    receiverChannel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(dataContentMsg)));
+                    receiverChannel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(dataContent)));
                 }else{
                     //离线用户
                 }
             }
-
-
         } else if(action == MessageActionConstant.SIGNED){
 //            //2.3 签收消息类型，针对具体的消息进行签收，修改数据库中对应消息的签收状态[已签收]
         } else if(action == MessageActionConstant.KEEPALIVE){
