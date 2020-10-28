@@ -27,6 +27,7 @@ public class WebSocketServer {
         static final WebSocketServer instance = new WebSocketServer();
     }
 
+    @Bean
     public static WebSocketServer getInstance() {
         return SingletionWSServer.instance;
     }
@@ -45,7 +46,6 @@ public class WebSocketServer {
                 .childHandler(new WSServerInitialzer());
     }
 
-    @Bean
     public void start() {
         this.future = server.bind(host,port);
         if (future.isSuccess()) {
